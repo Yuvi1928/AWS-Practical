@@ -1,0 +1,34 @@
+Classic load balancer
+
+-Create EC2 instance with 1a AZ (ie web-app-1)
+-Security group (allow ssh & http)  (ie MyLinuxSG)
+-Create EC2 instance with 1b AZ (ie web-app-2)
+-Security group (allow ssh & http) (ie MyLinuxSG)
+-Install nginx web server in both ecz instance 
+sudo -i
+yum update 
+yum install nginx -y
+systemctl start nginx
+cd /usr/share/nginx/html
+echo "This is My First WEB SERVER" > index.html
+
+-Create new security group (My-CLB)
+-Inbound rules:
+  HTTP – TCP – 80 – custom – 0.0.0.0/0
+
+-Create new Classic Load Balancer (CLB)
+	-create load balancer
+	-Classic Load Balancer - previous generation 
+	-click on create
+	-give load balancer name
+	-select scheme (internet-facing)
+	-select mapping ap-south-1a  & ap-south-1b
+	-security group (select  My-CLB)
+	-select add instances (ie. Web-app-1 & web-app-2)
+	-click on create load balancer
+-Go to load balancer
+-copy DNS name & paste on browser
+-check for application running from 2 instances  
+ 
+ 
+
